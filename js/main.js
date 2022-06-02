@@ -2,6 +2,7 @@
 function getRandomInRange(minValue, maxValue) {
   if (minValue < 0 || maxValue < 0) {
     // не придумал, что можно сделать вместо console.log для вывода ошибки
+    // eslint-disable-next-line no-console
     return console.log('Значения должны быть положительными');
   }
   if (maxValue <= minValue) {

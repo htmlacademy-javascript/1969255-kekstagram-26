@@ -1,12 +1,12 @@
-function getShuffledArray(startValue, lastValue, array) {
+function createShuffledArray(startValue, lastValue, items) {
   for (let i = startValue; i <= lastValue; i++) {
-    array.push(i);
+    items.push(i);
   }
-  return array.sort(() => 0.5 - Math.random());
+  return items.sort(() => 0.5 - Math.random());
 }
 
-function getFirstArrayValue (array) {
-  return array.shift();
+function getFirstArrayValue (items) {
+  return items.shift();
 }
 
 //функция по поиску случайного числа из диапазона
@@ -26,4 +26,4 @@ function checkStringLength(stringToTest, maxStringLength) {
 
 checkStringLength('', 140);
 
-export {getShuffledArray, getFirstArrayValue, getRandomInRange, getRandomArrayElement}
+export {createShuffledArray, getFirstArrayValue, getRandomInRange, getRandomArrayElement};

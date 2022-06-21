@@ -1,4 +1,1 @@
-import './util.js';
-import {createPhotoDescriptions} from './data.js';
-
-createPhotoDescriptions();
+import './thumbnails.js';

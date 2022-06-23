@@ -2,7 +2,7 @@ function createShuffledArray(startValue, lastValue, items) {
   for (let i = startValue; i <= lastValue; i++) {
     items.push(i);
   }
-  return items.sort(() => 0.5 - Math.random());
+  return items;
 }
 
 function getFirstArrayValue (items) {

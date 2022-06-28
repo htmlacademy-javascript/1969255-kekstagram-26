@@ -1,4 +1,4 @@
-import {createShuffledArray, getFirstArrayValue, getRandomInRange, getRandomArrayElement} from './util.js';
+import {createNumericArray, getFirstArrayValue, getRandomInRange, getRandomArrayElement} from './util.js';
 
 const DESCRIPTIONS = [
   'Работать. Копить. Путешествовать. Повторить.',
@@ -62,8 +62,8 @@ const MIN_RANDOM_COMMENTS_IDS_NUMBER = 1;
 const MAX_RANDOM_COMMENTS_IDS_NUMBER = 400;
 
 
-const IDS = createShuffledArray(FIRST_DESCRIPTION_NUMBER, NUMBER_OF_DESCRIPTIONS, []);
-const COMMENTS_IDS = createShuffledArray(MIN_RANDOM_COMMENTS_IDS_NUMBER, MAX_RANDOM_COMMENTS_IDS_NUMBER, []);
+const IDS = createNumericArray(FIRST_DESCRIPTION_NUMBER, NUMBER_OF_DESCRIPTIONS, []);
+const COMMENTS_IDS = createNumericArray(MIN_RANDOM_COMMENTS_IDS_NUMBER, MAX_RANDOM_COMMENTS_IDS_NUMBER, []);
 
 function createCommentsArray() {
   return {

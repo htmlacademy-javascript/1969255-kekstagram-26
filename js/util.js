@@ -1,4 +1,4 @@
-function createShuffledArray(startValue, lastValue, items) {
+function createNumericArray(startValue, lastValue, items) {
   for (let i = startValue; i <= lastValue; i++) {
     items.push(i);
   }
@@ -26,4 +26,4 @@ function checkStringLength(stringToTest, maxStringLength) {
 
 checkStringLength('', 140);
 
-export {createShuffledArray, getFirstArrayValue, getRandomInRange, getRandomArrayElement};
+export {createNumericArray, getFirstArrayValue, getRandomInRange, getRandomArrayElement};

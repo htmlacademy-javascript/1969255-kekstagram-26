@@ -1,14 +1,3 @@
-function createNumericArray(startValue, lastValue, items) {
-  for (let i = startValue; i <= lastValue; i++) {
-    items.push(i);
-  }
-  return items;
-}
-
-function getFirstArrayValue (items) {
-  return items.shift();
-}
-
 //функция по поиску случайного числа из диапазона
 function getRandomInRange(firstValue, secondValue) {
   const lower = Math.ceil(Math.min(Math.abs(firstValue), Math.abs(secondValue)));
@@ -26,4 +15,4 @@ function checkStringLength(stringToTest, maxStringLength) {
 
 checkStringLength('', 140);
 
-export {createNumericArray, getFirstArrayValue, getRandomInRange, getRandomArrayElement};
+export {getRandomInRange, getRandomArrayElement};

@@ -1,68 +1,67 @@
-
-const body = document.querySelector('body');
-const fullscreenPhotoModal = document.querySelector('.big-picture');
-const socialCommentCount = document.querySelector('.social__comment-count');
-const commentsLoader = document.querySelector('.comments-loader');
-
-const likesCount = document.querySelector('.likes-count');
-const commentsCount = document.querySelector('.comments-count');
-const commentsList = document.querySelector('.social__comments');
-const photoCaption = document.querySelector('.social__caption');
-const fullscreenPhotoImage = fullscreenPhotoModal.querySelector('.big-picture__img img');
-const closeButton = document.querySelector('#picture-cancel');
-
 const AVATAR_WIDTH = 35;
 const AVATAR_HEIGHT = 35;
 
+const bodyElement = document.querySelector('body');
+const fullscreenPhotoModalElement = document.querySelector('.big-picture');
+const socialCommentCountElement = document.querySelector('.social__comment-count');
+const commentsLoaderElement = document.querySelector('.comments-loader');
+
+const likesCountElement = document.querySelector('.likes-count');
+const commentsCountElement = document.querySelector('.comments-count');
+const commentsListElement = document.querySelector('.social__comments');
+const photoCaptionElement = document.querySelector('.social__caption');
+const fullscreenPhotoImageElement = fullscreenPhotoModalElement.querySelector('.big-picture__img img');
+const closeButtonElement = document.querySelector('#picture-cancel');
+
 
 function createFullscreenPhoto(url, description, likes, comments) {
-  fullscreenPhotoModal.classList.remove('hidden');
-  socialCommentCount.classList.add('hidden');
-  commentsLoader.classList.add('hidden');
-  body.classList.add('modal-open');
+  fullscreenPhotoModalElement.classList.remove('hidden');
+  socialCommentCountElement.classList.add('hidden');
+  commentsLoaderElement.classList.add('hidden');
+  bodyElement.classList.add('modal-open');
 
-  fullscreenPhotoImage.src = url;
-  photoCaption.textContent = description;
-  likesCount.textContent = likes;
-  commentsCount.textContent = comments.length;
+  fullscreenPhotoImageElement.src = url;
+  photoCaptionElement.textContent = description;
+  likesCountElement.textContent = likes;
+  commentsCountElement.textContent = comments.length;
   createComments(comments);
 }
 
 function createComments(comments) {
-  commentsList.innerHTML = '';
+  commentsListElement.innerText = '';
 
   comments.forEach(({avatar, name, message}) => {
 
-    const newCommentItem = document.createElement('li');
-    const newAvatar = document.createElement('img');
-    const newCommentText = document.createElement('p');
+    const newCommentItemElement = document.createElement('li');
+    const newAvatarElement = document.createElement('img');
+    const newCommentTextElement = document.createElement('p');
 
-    newCommentItem.classList.add('social__comment');
+    newCommentItemElement.classList.add('social__comment');
 
-    newAvatar.classList.add('social__picture');
-    newAvatar.src = avatar;
-    newAvatar.alt = name;
-    newAvatar.width = AVATAR_WIDTH;
-    newAvatar.height = AVATAR_HEIGHT;
+    newAvatarElement.classList.add('social__picture');
+    newAvatarElement.src = avatar;
+    newAvatarElement.alt = name;
+    newAvatarElement.width = AVATAR_WIDTH;
+    newAvatarElement.height = AVATAR_HEIGHT;
 
-    newCommentText.classList.add('social__text');
-    newCommentText.textContent = message;
+    newCommentTextElement.classList.add('social__text');
+    newCommentTextElement.textContent = message;
 
-    newCommentItem.append(newAvatar);
-    newCommentItem.append(newCommentText);
+    newCommentItemElement.append(newAvatarElement);
+    newCommentItemElement.append(newCommentTextElement);
 
-    commentsList.append(newCommentItem);
+    commentsListElement.append(newCommentItemElement);
   });
-  return commentsList;
+  return commentsListElement;
 }
 
 
 function closeWindow() {
-  fullscreenPhotoModal.classList.add('hidden');
-  body.classList.remove('modal-open');
+  fullscreenPhotoModalElement.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
 }
 
-closeButton.addEventListener('click', closeWindow);
+closeButtonElement.addEventListener('click', closeWindow);
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {

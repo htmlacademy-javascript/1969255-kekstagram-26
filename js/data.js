@@ -1,4 +1,4 @@
-import {createShuffledArray, getFirstArrayValue, getRandomInRange, getRandomArrayElement} from './util.js';
+import { getRandomInRange, getRandomArrayElement} from './util.js';
 
 const DESCRIPTIONS = [
   'Работать. Копить. Путешествовать. Повторить.',
@@ -59,15 +59,15 @@ const MAX_LIKES_NUMBER = 200;
 const MIN_COMMENTS_NUMBER = 5;
 const MAX_COMMENTS_NUMBER = 15;
 const MIN_RANDOM_COMMENTS_IDS_NUMBER = 1;
-const MAX_RANDOM_COMMENTS_IDS_NUMBER = 400;
 
+let commentIdIndex = MIN_RANDOM_COMMENTS_IDS_NUMBER;
+let photoDescriptionIdIndex = FIRST_DESCRIPTION_NUMBER;
 
-const IDS = createShuffledArray(FIRST_DESCRIPTION_NUMBER, NUMBER_OF_DESCRIPTIONS, []);
-const COMMENTS_IDS = createShuffledArray(MIN_RANDOM_COMMENTS_IDS_NUMBER, MAX_RANDOM_COMMENTS_IDS_NUMBER, []);
 
 function createCommentsArray() {
+  commentIdIndex++;
   return {
-    id: getFirstArrayValue(COMMENTS_IDS),
+    id: commentIdIndex,
     avatar: `img/avatar-${  getRandomInRange(FIRST_AVATAR_ID, LAST_AVATAR_ID)  }.svg`,
     message: getRandomArrayElement(MESSAGES),
     name: getRandomArrayElement(NAMES)
@@ -75,11 +75,10 @@ function createCommentsArray() {
 }
 
 function createPhotoDescription() {
-  const id = getFirstArrayValue(IDS);
-
+  photoDescriptionIdIndex++;
   return {
-    id,
-    url: `photos/${id}.jpg`,
+    id: photoDescriptionIdIndex,
+    url: `photos/${photoDescriptionIdIndex}.jpg`,
     description: getRandomArrayElement(DESCRIPTIONS),
     likes: getRandomInRange(MIN_LIKES_NUMBER, MAX_LIKES_NUMBER),
     comments: Array.from({length: getRandomInRange(MIN_COMMENTS_NUMBER, MAX_COMMENTS_NUMBER)}, createCommentsArray),

@@ -1,3 +1,5 @@
+const MAX_STRING_LENGTH = 140;
+
 //функция по поиску случайного числа из диапазона
 function getRandomInRange(firstValue, secondValue) {
   const lower = Math.ceil(Math.min(Math.abs(firstValue), Math.abs(secondValue)));
@@ -9,10 +11,8 @@ function getRandomInRange(firstValue, secondValue) {
 const getRandomArrayElement = (elements) => elements[getRandomInRange(0, elements.length - 1)];
 
 // Функция для проверки максимальной длины строки
-function checkStringLength(stringToTest, maxStringLength) {
-  return stringToTest.length <= maxStringLength;
+function checkStringLength(value) {
+  return value.length <= MAX_STRING_LENGTH;
 }
 
-checkStringLength('', 140);
-
-export {getRandomInRange, getRandomArrayElement};
+export {getRandomInRange, getRandomArrayElement, checkStringLength};

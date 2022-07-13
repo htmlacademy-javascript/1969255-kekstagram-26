@@ -1,37 +1,73 @@
+import {isEscapeKey } from './util.js';
+
 const AVATAR_WIDTH = 35;
 const AVATAR_HEIGHT = 35;
+const NUMBER_OF_COMMENTS_TO_SHOW = 5;
+const FIRST_INDEX_OF_COMMENT = 0;
 
 const bodyElement = document.querySelector('body');
 const fullscreenPhotoModalElement = document.querySelector('.big-picture');
-const socialCommentCountElement = document.querySelector('.social__comment-count');
-const commentsLoaderElement = document.querySelector('.comments-loader');
-
+const commentsLoadMoreButtonElement = document.querySelector('.comments-loader');
+const uploadedCommentsCountElement = document.querySelector('.social__comment-count');
+const allCommentsCountElement = document.querySelector('.comments-count');
 const likesCountElement = document.querySelector('.likes-count');
-const commentsCountElement = document.querySelector('.comments-count');
 const commentsListElement = document.querySelector('.social__comments');
 const photoCaptionElement = document.querySelector('.social__caption');
 const fullscreenPhotoImageElement = fullscreenPhotoModalElement.querySelector('.big-picture__img img');
 const closeButtonElement = document.querySelector('#picture-cancel');
 
+let count = NUMBER_OF_COMMENTS_TO_SHOW;
+let commentaries = [];
+
+function onFullScreenPhotoModalEscapeDown(event) {
+  if (isEscapeKey(event)) {
+    event.preventDefault();
+    closeFullscreenPhotoModal();
+  }
+}
+
+function onLoadMoreButtonClick() {
+  count += NUMBER_OF_COMMENTS_TO_SHOW;
+  showComments(commentaries);
+}
+
+function openFullscreenPhotoModal() {
+  fullscreenPhotoModalElement.classList.remove('hidden');
+  bodyElement.classList.add('modal-open');
+
+  commentsLoadMoreButtonElement.addEventListener('click', onLoadMoreButtonClick);
+  document.addEventListener('keydown', onFullScreenPhotoModalEscapeDown);
+  closeButtonElement.addEventListener('click', closeFullscreenPhotoModal);
+}
+
+function closeFullscreenPhotoModal() {
+  fullscreenPhotoModalElement.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
+
+  commentsLoadMoreButtonElement.removeEventListener('click', onLoadMoreButtonClick);
+  document.removeEventListener('keydown', onFullScreenPhotoModalEscapeDown);
+  closeButtonElement.removeEventListener('click', closeFullscreenPhotoModal);
+}
+
 
 function createFullscreenPhoto(url, description, likes, comments) {
-  fullscreenPhotoModalElement.classList.remove('hidden');
-  socialCommentCountElement.classList.add('hidden');
-  commentsLoaderElement.classList.add('hidden');
-  bodyElement.classList.add('modal-open');
+  count =  NUMBER_OF_COMMENTS_TO_SHOW;
+
+  openFullscreenPhotoModal();
 
   fullscreenPhotoImageElement.src = url;
   photoCaptionElement.textContent = description;
   likesCountElement.textContent = likes;
-  commentsCountElement.textContent = comments.length;
-  createComments(comments);
+  allCommentsCountElement.textContent = comments.length;
+
+  commentaries = comments;
+  showComments(commentaries);
 }
 
 function createComments(comments) {
   commentsListElement.innerText = '';
 
   comments.forEach(({avatar, name, message}) => {
-
     const newCommentItemElement = document.createElement('li');
     const newAvatarElement = document.createElement('img');
     const newCommentTextElement = document.createElement('p');
@@ -55,18 +91,17 @@ function createComments(comments) {
   return commentsListElement;
 }
 
+function showComments(commentsList) {
+  const currentComments = commentsList.slice(FIRST_INDEX_OF_COMMENT, count);
+  const createCommentsList = createComments(currentComments);
+  commentsLoadMoreButtonElement.classList.remove('hidden');
 
-function closeWindow() {
-  fullscreenPhotoModalElement.classList.add('hidden');
-  bodyElement.classList.remove('modal-open');
-}
+  uploadedCommentsCountElement.textContent = `${currentComments.length  } из ${commentsList.length} комментариев`;
 
-closeButtonElement.addEventListener('click', closeWindow);
-
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') {
-    closeWindow();
+  if (count >= commentsList.length) {
+    commentsLoadMoreButtonElement.classList.add('hidden');
   }
-});
+  return createCommentsList;
+}
 
 export {createFullscreenPhoto};

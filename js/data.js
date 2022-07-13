@@ -55,8 +55,8 @@ const FIRST_AVATAR_ID = 1;
 const LAST_AVATAR_ID = 6;
 const MIN_LIKES_NUMBER = 15;
 const MAX_LIKES_NUMBER = 200;
-const MIN_COMMENTS_NUMBER = 5;
-const MAX_COMMENTS_NUMBER = 15;
+const MIN_COMMENTS_NUMBER = 4;
+const MAX_COMMENTS_NUMBER = 14;
 
 let commentIdIndex = 0;
 let photoDescriptionIdIndex = 0;

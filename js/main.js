@@ -1,2 +1,2 @@
 import './thumbnails.js';
-import './forms.js';
+import './upload-image-form.js';

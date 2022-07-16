@@ -1,4 +1,6 @@
 import { checkStringLength, isEscapeKey } from './util.js';
+import { onScaleMinusButtonClick, onScalePlusButtonClick } from './scale-control.js';
+import { onImageEffectsPreviewClick, showOriginalPhoto } from './effects.js';
 
 const VALID_HASHTAG = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 const MAX_NUMBER_OF_HASHTAGS = 5;
@@ -12,6 +14,14 @@ const closeUploadImageModalElement = document.querySelector('#upload-cancel');
 const uploadFormElement = document.querySelector('#upload-select-image');
 const commentTextElement = uploadFormElement.querySelector('.text__description');
 const hashtagElement = uploadFormElement.querySelector('.text__hashtags');
+
+const scaleMinusButtonElement = document.querySelector('.scale__control--smaller');
+const scalePlusButtonElement = document.querySelector('.scale__control--bigger');
+const scaleValueElement = document.querySelector('.scale__control--value');
+const photoPreviewElement = document.querySelector('.img-upload__preview img');
+
+const effectsListElement = document.querySelector('.effects__list');
+
 
 function onUploadModalEscapeKeydown (event) {
   if (isEscapeKey(event)) {
@@ -29,8 +39,14 @@ function onUploadModalEscapeKeydown (event) {
 function openUploadImageModal () {
   uploadImageModalElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
+  scaleValueElement.value = '100%';
+  photoPreviewElement.style.transform = 'scale(1)';
+  showOriginalPhoto();
 
   document.addEventListener('keydown', onUploadModalEscapeKeydown);
+  scalePlusButtonElement.addEventListener('click', onScalePlusButtonClick);
+  scaleMinusButtonElement.addEventListener('click', onScaleMinusButtonClick);
+  effectsListElement.addEventListener('change', onImageEffectsPreviewClick);
 }
 
 function closeUploadImageModal () {
@@ -38,6 +54,9 @@ function closeUploadImageModal () {
   bodyElement.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onUploadModalEscapeKeydown);
+  scalePlusButtonElement.removeEventListener('click', onScalePlusButtonClick);
+  scaleMinusButtonElement.removeEventListener('click', onScaleMinusButtonClick);
+  effectsListElement.removeEventListener('change', onImageEffectsPreviewClick);
 }
 
 uploadFileElement.addEventListener('change', () => {
@@ -46,7 +65,6 @@ uploadFileElement.addEventListener('change', () => {
 
 closeUploadImageModalElement.addEventListener('click', () => {
   closeUploadImageModal();
-
 });
 
 

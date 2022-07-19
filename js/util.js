@@ -15,8 +15,8 @@ function checkStringLength(value) {
   return value.length <= MAX_STRING_LENGTH;
 }
 
-function isEscapeKey (event) {
-  return event.key === 'Escape';
+function isEscapeKey (evt) {
+  return evt.key === 'Escape';
 }
 
 export {getRandomInRange, getRandomArrayElement, checkStringLength, isEscapeKey};

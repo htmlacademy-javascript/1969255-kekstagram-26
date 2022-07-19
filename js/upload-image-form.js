@@ -1,72 +1,14 @@
-import { checkStringLength, isEscapeKey } from './util.js';
-import { onScaleMinusButtonClick, onScalePlusButtonClick } from './scale-control.js';
-import { onImageEffectsPreviewClick, showOriginalPhoto } from './effects.js';
+import { checkStringLength } from './util.js';
+import {showUploadFormErrorMessage, showUploadFormSuccessMessage} from './info-messages.js';
+import { sendData } from './api.js';
 
 const VALID_HASHTAG = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 const MAX_NUMBER_OF_HASHTAGS = 5;
 
-
-const uploadFileElement = document.querySelector('#upload-file');
-const uploadImageModalElement = document.querySelector('.img-upload__overlay');
-const bodyElement = document.querySelector('body');
-const closeUploadImageModalElement = document.querySelector('#upload-cancel');
-
 const uploadFormElement = document.querySelector('#upload-select-image');
 const commentTextElement = uploadFormElement.querySelector('.text__description');
 const hashtagElement = uploadFormElement.querySelector('.text__hashtags');
-
-const scaleMinusButtonElement = document.querySelector('.scale__control--smaller');
-const scalePlusButtonElement = document.querySelector('.scale__control--bigger');
-const scaleValueElement = document.querySelector('.scale__control--value');
-const photoPreviewElement = document.querySelector('.img-upload__preview img');
-
-const effectsListElement = document.querySelector('.effects__list');
-
-
-function onUploadModalEscapeKeydown (event) {
-  if (isEscapeKey(event)) {
-    if (commentTextElement === document.activeElement || hashtagElement === document.activeElement) {
-      return bodyElement.classList.add('modal-open');
-    }
-    uploadImageModalElement.classList.add('hidden');
-    bodyElement.classList.remove('modal-open');
-    uploadFileElement.value = '';
-    commentTextElement.value = '';
-    closeUploadImageModal();
-  }
-}
-
-function openUploadImageModal () {
-  uploadImageModalElement.classList.remove('hidden');
-  bodyElement.classList.add('modal-open');
-  scaleValueElement.value = '100%';
-  photoPreviewElement.style.transform = 'scale(1)';
-  showOriginalPhoto();
-
-  document.addEventListener('keydown', onUploadModalEscapeKeydown);
-  scalePlusButtonElement.addEventListener('click', onScalePlusButtonClick);
-  scaleMinusButtonElement.addEventListener('click', onScaleMinusButtonClick);
-  effectsListElement.addEventListener('change', onImageEffectsPreviewClick);
-}
-
-function closeUploadImageModal () {
-  uploadImageModalElement.classList.add('hidden');
-  bodyElement.classList.remove('modal-open');
-
-  document.removeEventListener('keydown', onUploadModalEscapeKeydown);
-  scalePlusButtonElement.removeEventListener('click', onScalePlusButtonClick);
-  scaleMinusButtonElement.removeEventListener('click', onScaleMinusButtonClick);
-  effectsListElement.removeEventListener('change', onImageEffectsPreviewClick);
-}
-
-uploadFileElement.addEventListener('change', () => {
-  openUploadImageModal();
-});
-
-closeUploadImageModalElement.addEventListener('click', () => {
-  closeUploadImageModal();
-});
-
+const submitButtonElement = uploadFormElement.querySelector('#upload-submit');
 
 const pristine = new Pristine(uploadFormElement, {
   classTo: 'img-upload__field-wrapper',
@@ -105,34 +47,63 @@ function checkHashtagsRepeats() {
   return hashtags.length === uniqueHashtags.length;
 }
 
+function checkFormValidity() {
+  pristine.addValidator(
+    hashtagElement,
+    checkHashtagValidity,
+    'хэш-тег начинается с символа # (решётка) <br> строка после решётки должна состоять из букв и чисел <br> хеш-тег не может состоять только из одной решётки <br> максимальная длина одного хэш-тега 20 символов, включая решётку'
+  );
 
-pristine.addValidator(
-  hashtagElement,
-  checkHashtagValidity,
-  'хэш-тег начинается с символа # (решётка) <br> строка после решётки должна состоять из букв и чисел <br> хеш-тег не может состоять только из одной решётки <br> максимальная длина одного хэш-тега 20 символов, включая решётку'
-);
+  pristine.addValidator(
+    hashtagElement,
+    checkHashtagLength,
+    'Количество хэштэгов не более 5'
+  );
 
-pristine.addValidator(
-  hashtagElement,
-  checkHashtagLength,
-  'Количество хэштэгов не более 5'
-);
+  pristine.addValidator(
+    hashtagElement,
+    checkHashtagsRepeats,
+    'Хэштэги не должны повторяться'
+  );
 
-pristine.addValidator(
-  hashtagElement,
-  checkHashtagsRepeats,
-  'Хэштэги не должны повторяться'
-);
+  pristine.addValidator(
+    commentTextElement,
+    checkStringLength,
+    'Максимум 140 символов'
+  );
+}
 
-pristine.addValidator(
-  commentTextElement,
-  checkStringLength,
-  'Максимум 140 символов'
-);
+function blockSubmitButton() {
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = 'Публикуем...';
+}
 
-uploadFormElement.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
+function unblockSubmitButton() {
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = 'Опубликовать';
+}
 
 
+function setUploadImageFormSubmit (onSuccess) {
+  uploadFormElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+          showUploadFormSuccessMessage();
+        },
+        () => {
+          showUploadFormErrorMessage();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target)
+      );
+    }
+  });
+}
+
+export {checkFormValidity, setUploadImageFormSubmit};

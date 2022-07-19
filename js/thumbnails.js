@@ -1,4 +1,3 @@
-import {createPhotoDescriptions} from './data.js';
 import { createFullscreenPhoto } from './fullscreen.js';
 
 const photoTileElement = document.querySelector('.pictures');
@@ -6,8 +5,6 @@ const photoTemplateElement = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-const allPhotos = createPhotoDescriptions();
-createPhotoTile(allPhotos);
 
 function createPhotoTile(photo) {
 
@@ -29,3 +26,5 @@ function createPhotoTile(photo) {
 
   return photoTileElement.append(photoTileFragment);
 }
+
+export {createPhotoTile};

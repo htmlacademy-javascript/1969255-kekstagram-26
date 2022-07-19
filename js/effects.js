@@ -16,7 +16,6 @@ function showOriginalPhoto() {
   resetParametersOfElement();
   sliderBlockElement.classList.add('visually-hidden');
   orginalPhotoPreviewElement.checked = true;
-
 }
 
 noUiSlider.create(sliderElement, {
@@ -36,92 +35,100 @@ function changeFilter(currentFilter, measurmentUnits) {
 
 
 function onImageEffectsPreviewClick(evt) {
-  if (evt.target.value === 'none') {
-    showOriginalPhoto();
-  } else if (evt.target.value === 'chrome') {
-    resetParametersOfElement();
-    photoPreviewElement.classList.add('effects__preview--chrome');
+  switch (evt.target.value) {
+    case 'none':
+      showOriginalPhoto();
+      break;
 
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 1,
-      step: 0.1,
-    });
+    case 'chrome':
+      resetParametersOfElement();
+      photoPreviewElement.classList.add('effects__preview--chrome');
 
-    sliderElement.noUiSlider.on('update', () => {
-      changeFilter('grayscale', '');
-    });
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 1,
+        },
+        start: 1,
+        step: 0.1,
+      });
 
-  } else if (evt.target.value === 'sepia') {
-    resetParametersOfElement();
-    photoPreviewElement.classList.add('effects__preview--sepia');
+      sliderElement.noUiSlider.on('update', () => {
+        changeFilter('grayscale', '');
+      });
+      break;
 
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 1,
-      step: 0.1,
-    });
+    case 'sepia':
+      resetParametersOfElement();
+      photoPreviewElement.classList.add('effects__preview--sepia');
 
-    sliderElement.noUiSlider.on('update', () => {
-      changeFilter('sepia', '');
-    });
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 1,
+        },
+        start: 1,
+        step: 0.1,
+      });
 
-  } else if (evt.target.value === 'marvin') {
-    resetParametersOfElement();
-    photoPreviewElement.classList.add('effects__preview--marvin');
+      sliderElement.noUiSlider.on('update', () => {
+        changeFilter('sepia', '');
+      });
+      break;
 
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 100,
-      },
-      start: 100,
-      step: 1,
-    });
+    case 'marvin':
+      resetParametersOfElement();
+      photoPreviewElement.classList.add('effects__preview--marvin');
 
-    sliderElement.noUiSlider.on('update', () => {
-      changeFilter('invert', '%');
-    });
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 100,
+        },
+        start: 100,
+        step: 1,
+      });
 
-  } else if (evt.target.value === 'phobos') {
-    resetParametersOfElement();
-    photoPreviewElement.classList.add('effects__preview--phobos');
+      sliderElement.noUiSlider.on('update', () => {
+        changeFilter('invert', '%');
+      });
+      break;
 
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 3,
-      },
-      start: 3,
-      step: 0.1,
-    });
+    case 'phobos':
+      resetParametersOfElement();
+      photoPreviewElement.classList.add('effects__preview--phobos');
 
-    sliderElement.noUiSlider.on('update', () => {
-      changeFilter('blur', 'px');
-    });
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 3,
+        },
+        start: 3,
+        step: 0.1,
+      });
 
-  } else if (evt.target.value === 'heat') {
-    resetParametersOfElement();
-    photoPreviewElement.classList.add('effects__preview--heat');
+      sliderElement.noUiSlider.on('update', () => {
+        changeFilter('blur', 'px');
+      });
+      break;
 
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 3,
-      },
-      start: 3,
-      step: 0.1,
-    });
+    case 'heat':
+      resetParametersOfElement();
+      photoPreviewElement.classList.add('effects__preview--heat');
 
-    sliderElement.noUiSlider.on('update', () => {
-      changeFilter('brightness', '');
-    });
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 3,
+        },
+        start: 3,
+        step: 0.1,
+      });
+
+      sliderElement.noUiSlider.on('update', () => {
+        changeFilter('brightness', '');
+      });
+      break;
   }
 }
 

@@ -19,4 +19,21 @@ function isEscapeKey (evt) {
   return evt.key === 'Escape';
 }
 
-export {getRandomInRange, getRandomArrayElement, checkStringLength, isEscapeKey};
+function shuffleArray (items) {
+  for (let i = items.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [items[i], items[j]] = [items[j], items[i]];
+  }
+  return items;
+}
+
+
+function debounce (callback, timeoutDelay) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+export {getRandomInRange, getRandomArrayElement, checkStringLength, isEscapeKey, debounce, shuffleArray};

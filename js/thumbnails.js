@@ -23,8 +23,15 @@ function createPhotoTile(photo) {
 
     photoTileFragment.append(photoElement);
   });
-
+  removePhotoTile();
   return photoTileElement.append(photoTileFragment);
 }
 
-export {createPhotoTile};
+function removePhotoTile() {
+  const photos = photoTileElement.querySelectorAll('.picture');
+  photos.forEach((photo) => {
+    photo.remove();
+  });
+}
+
+export {createPhotoTile, removePhotoTile};

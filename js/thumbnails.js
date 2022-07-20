@@ -34,4 +34,4 @@ function removePhotoTile() {
   });
 }
 
-export {createPhotoTile, removePhotoTile};
+export {createPhotoTile};

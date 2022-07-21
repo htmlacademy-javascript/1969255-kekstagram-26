@@ -2,9 +2,12 @@ import { isEscapeKey } from './util.js';
 import { onScaleMinusButtonClick, onScalePlusButtonClick } from './scale-control.js';
 import { onImageEffectsPreviewClick, showOriginalPhoto } from './effects.js';
 
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+const bodyElement = document.querySelector('body');
 const uploadFileElement = document.querySelector('#upload-file');
 const uploadImageModalElement = document.querySelector('.img-upload__overlay');
-const bodyElement = document.querySelector('body');
+const photoPreviewElement = document.querySelector('.img-upload__preview img');
 const closeUploadImageModalElement = document.querySelector('#upload-cancel');
 
 const uploadFormElement = document.querySelector('#upload-select-image');
@@ -15,12 +18,12 @@ const hashtagElement = uploadFormElement.querySelector('.text__hashtags');
 const scaleMinusButtonElement = document.querySelector('.scale__control--smaller');
 const scalePlusButtonElement = document.querySelector('.scale__control--bigger');
 const scaleValueElement = document.querySelector('.scale__control--value');
-const photoPreviewElement = document.querySelector('.img-upload__preview img');
 
 const effectsListElement = document.querySelector('.effects__list');
 
 function resetElementPerameters() {
   scaleValueElement.value = '100%';
+  photoPreviewElement.src = '';
   photoPreviewElement.style.filter = '';
   photoPreviewElement.style.transform = 'scale(1)';
   hashtagElement.value = '';
@@ -38,6 +41,17 @@ function onUploadModalEscapeKeydown (evt) {
     closeUploadImageModal();
   }
 }
+
+function uploadPhoto() {
+  const file = uploadFileElement.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((element) => fileName.endsWith(element));
+  if (matches) {
+    photoPreviewElement.src = URL.createObjectURL(file);
+  }
+}
+
 
 function openUploadImageModal () {
   uploadImageModalElement.classList.remove('hidden');
@@ -71,6 +85,7 @@ function closeUploadImageModal () {
 
 function callEventListeners() {
   uploadFileElement.addEventListener('change', () => {
+    uploadPhoto();
     openUploadImageModal();
   });
 
@@ -80,4 +95,4 @@ function callEventListeners() {
 }
 
 
-export {callEventListeners, openUploadImageModal, closeUploadImageModal};
+export {callEventListeners, closeUploadImageModal};

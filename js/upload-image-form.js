@@ -87,8 +87,7 @@ function unblockSubmitButton() {
 function setUploadImageFormSubmit (onSuccess) {
   uploadFormElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    const isValid = pristine.validate();
-    if (isValid) {
+    if (pristine.validate()) {
       blockSubmitButton();
       sendData(
         () => {

@@ -64,4 +64,4 @@ function setImageFiltersClick(serverPhotos){
 }
 
 
-export { setImageFiltersClick, showFilterButtonsContainer,filterByDefault, filterRandomly, filterByNumberOfComments};
+export { setImageFiltersClick, showFilterButtonsContainer};

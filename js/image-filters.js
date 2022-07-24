@@ -11,8 +11,8 @@ function showFilterButtonsContainer() {
   imageFiltersContainerElement.classList.remove('img-filters--inactive');
 }
 
-function compareCommentsQuantity(photoA, PhotoB){
-  return PhotoB.comments.length - photoA.comments.length;
+function compareCommentsQuantity(photoA, photoB){
+  return photoB.comments.length - photoA.comments.length;
 }
 
 function filterByDefault(serverPhotos) {

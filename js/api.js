@@ -1,5 +1,7 @@
+const API_URL = 'https://26.javascript.pages.academy/kekstagram';
+
 const getData = (onSuccess, onFail) => {
-  fetch('https://26.javascript.pages.academy/kekstagram/data')
+  fetch(`${API_URL}/data`)
     .then((response) => {
       if (response.ok) {
         response.json()
@@ -16,7 +18,7 @@ const getData = (onSuccess, onFail) => {
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://26.javascript.pages.academy/kekstagram',
+    API_URL,
     {
       method: 'POST',
       'Content-Type': 'multipart/form-data',

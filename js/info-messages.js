@@ -33,6 +33,7 @@ function showUploadFormSuccessMessage () {
     successMessage.remove();
     successButtonElement.removeEventListener('click', closeUploadFormSuccessMessage);
     document.removeEventListener('keydown', onUploadFormSuccessMessageEscapeKeydown);
+    document.removeEventListener('click', onOutsideSuccessMessageClick);
   }
   successButtonElement.addEventListener('click', closeUploadFormSuccessMessage);
   document.addEventListener('keydown', onUploadFormSuccessMessageEscapeKeydown);
@@ -41,15 +42,15 @@ function showUploadFormSuccessMessage () {
 
 
 function showUploadFormErrorMessage () {
-  const errorMessage = errorMessageTemplateElement.cloneNode(true);
-  const errorMessageWindowElement = errorMessage.querySelector('.error__inner');
-  const errorButtonElement = errorMessage.querySelector('.error__button');
+  const errorMessageElement = errorMessageTemplateElement.cloneNode(true);
+  const errorMessageWindowElement = errorMessageElement.querySelector('.error__inner');
+  const errorButtonElement = errorMessageElement.querySelector('.error__button');
 
-  document.body.append(errorMessage);
+  document.body.append(errorMessageElement);
 
   function onUploadFormErrorMessageEscapeKeydown (evt) {
     if (isEscapeKey(evt)) {
-      if(errorMessage) {
+      if (errorMessageElement) {
         closeUploadFormErrorMessage();
       }
     }
@@ -64,7 +65,7 @@ function showUploadFormErrorMessage () {
   }
 
   function closeUploadFormErrorMessage () {
-    errorMessage.remove();
+    errorMessageElement.remove();
     errorButtonElement.removeEventListener('click', closeUploadFormErrorMessage);
     document.removeEventListener('keydown', onUploadFormErrorMessageEscapeKeydown);
     document.removeEventListener('click', onOutsideErrorMessageClick);

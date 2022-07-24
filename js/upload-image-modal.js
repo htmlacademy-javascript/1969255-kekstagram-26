@@ -21,7 +21,7 @@ const scaleValueElement = document.querySelector('.scale__control--value');
 
 const effectsListElement = document.querySelector('.effects__list');
 
-function resetElementPerameters() {
+function resetElementParameters() {
   scaleValueElement.value = '100%';
   photoPreviewElement.src = '';
   photoPreviewElement.style.filter = '';
@@ -69,7 +69,7 @@ function closeUploadImageModal () {
 
   uploadImageModalElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
-  resetElementPerameters();
+  resetElementParameters();
 
 
   pristineErrorElements.forEach((errorElement) => {

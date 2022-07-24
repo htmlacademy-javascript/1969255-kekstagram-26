@@ -1,7 +1,7 @@
 const sliderElement = document.querySelector('.effect-level__slider');
 const sliderBlockElement = document.querySelector('.effect-level');
 const photoPreviewElement = document.querySelector('.img-upload__preview img');
-const orginalPhotoPreviewElement = document.querySelector('#effect-none');
+const originalPhotoPreviewElement = document.querySelector('#effect-none');
 const effectLevelValueElement = document.querySelector('.effect-level__value');
 
 
@@ -15,7 +15,7 @@ function resetParametersOfElement() {
 function showOriginalPhoto() {
   resetParametersOfElement();
   sliderBlockElement.classList.add('visually-hidden');
-  orginalPhotoPreviewElement.checked = true;
+  originalPhotoPreviewElement.checked = true;
 }
 
 noUiSlider.create(sliderElement, {
@@ -28,9 +28,9 @@ noUiSlider.create(sliderElement, {
   connect: 'lower',
 });
 
-function changeFilter(currentFilter, measurmentUnits) {
+function changeFilter(currentFilter, measurementUnits) {
   effectLevelValueElement.value = `${sliderElement.noUiSlider.get()}`;
-  photoPreviewElement.style.filter = `${currentFilter}(${  effectLevelValueElement.value = sliderElement.noUiSlider.get() }${measurmentUnits})`;
+  photoPreviewElement.style.filter = `${currentFilter}(${  effectLevelValueElement.value = sliderElement.noUiSlider.get() }${measurementUnits})`;
 }
 
 
